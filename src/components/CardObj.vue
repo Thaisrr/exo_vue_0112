@@ -9,6 +9,7 @@
         </div>
         <div class="card-footer">
             <button @click="changeStatus">{{ obj.isWatched ? 'Vue' : 'Pas vue' }}</button>
+            <button @click="modify">Modifier</button>
         </div>
     </div>
 </template>
@@ -30,6 +31,9 @@
         methods: {
             changeStatus: function () {
                 this.$emit('status', this.obj.id, this.obj)
+            },
+            modify: function () {
+                this.$emit('ask-modify', this.obj )
             }
         }
     }

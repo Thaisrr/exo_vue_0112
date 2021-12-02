@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>Nouvelle série :</h2>
+        <h2>{{modify? 'Modifier la série' : 'Nouvelle série'}}</h2>
         <form @submit.prevent="verifyForm">
             <div>
                 <label for="name">Nom</label>
@@ -18,7 +18,7 @@
                 <p v-if="resume_error" class="text-danger">{{resume_error}}</p>
             </div>
             <div>
-                <button type="submit">Enregistrer la série</button>
+                <button type="submit">{{modify? 'Modifier' : 'Enregistrer'}} la série</button>
             </div>
         </form>
         <hr>
@@ -30,14 +30,21 @@
         name: "SerieForm",
         data: function () {
             return {
-                serie : { id : this.id, name: '', isWatched: false, resume: '', img : '' },
                 name_error: '',
                 img_error: '',
                 resume_error: '',
             }
         },
         props: {
-            new_id: Number
+            new_id: Number,
+            serie : {
+                type: Object,
+                // Pour un objet ou un tableau, la valeur "défault" doit être retournée par une fonction.
+                default: function () {
+                    return { id : this.id, name: 'Test', isWatched: false, resume: '', img : '' }
+                }
+            },
+            modify: Boolean
         },
         methods: {
             verifyName: function() {
@@ -72,10 +79,14 @@
                 const no_error = this.verifyImg() && this.verifyName() && this.verifyResume();
                 if( no_error ) {
                     const {...copy} = this.serie;
-                    this.$emit('saving', copy);
                     this.serie.name = '';
                     this.serie.resume = '';
                     this.serie.img = '';
+                    if(this.modify) {
+                        this.$emit('updating', copy);
+                    } else {
+                        this.$emit('saving', copy);
+                    }
                 }
             }
         }

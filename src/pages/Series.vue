@@ -2,7 +2,7 @@
     <div>
         <h1>Séries</h1>
 
-        <SerieForm @saving="create"  :new_id="new_id"/>
+        <SerieForm @updating="updateSerie" :modify="modify" :serie="new_serie"  @saving="create"  :new_id="new_id"/>
 
         <div class="row">
             <CardObj class="my_card"
@@ -10,6 +10,7 @@
                     :key="serie.id"
                     :obj="serie"
                      @status="changeStatus"
+                     @ask-modify="sendSerieToModify"
             />
         </div>
     </div>
@@ -24,6 +25,8 @@
         data: function () {
             console.log('----------------data');
             return {
+                modify: false,
+                new_serie: undefined,
                 l_series : [
                     {
                         id: 1,
@@ -55,6 +58,17 @@
                 //const index = this.l_series.findIndex(s => s.id = id);
                 //this.l_series[index].isWatched = !this.l_series[index].isWatched;
                 obj.isWatched = !obj.isWatched;
+            },
+            sendSerieToModify: function (obj) {
+                const {...copy} = obj;
+                this.new_serie = copy;
+                this.modify = true;
+            },
+            updateSerie: function (obj) {
+                const index = this.l_series.findIndex(s => s.id === obj.id);
+                this.l_series[index] = obj;
+                this.new_serie = undefined;
+                this.modify = false;
             }
         }
     }
