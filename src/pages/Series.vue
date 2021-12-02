@@ -2,13 +2,14 @@
     <div>
         <h1>Séries</h1>
 
-        <SerieForm @saving="create" :new_id="new_id"/>
+        <SerieForm @saving="create"  :new_id="new_id"/>
 
         <div class="row">
             <CardObj class="my_card"
                     v-for="serie of l_series"
                     :key="serie.id"
                     :obj="serie"
+                     @status="changeStatus"
             />
         </div>
     </div>
@@ -49,6 +50,11 @@
         methods: {
             create: function (value) {
                 this.l_series.push(value);
+            },
+            changeStatus: function (id, obj) {
+                //const index = this.l_series.findIndex(s => s.id = id);
+                //this.l_series[index].isWatched = !this.l_series[index].isWatched;
+                obj.isWatched = !obj.isWatched;
             }
         }
     }

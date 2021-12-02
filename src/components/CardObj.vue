@@ -7,6 +7,9 @@
             <h3 :class="textColor" v-if="obj.name || obj.title">{{obj.name || obj.title}}</h3>
             <p>{{ obj.text || obj.resume }}</p>
         </div>
+        <div class="card-footer">
+            <button @click="changeStatus">{{ obj.isWatched ? 'Vue' : 'Pas vue' }}</button>
+        </div>
     </div>
 </template>
 
@@ -22,6 +25,11 @@
         computed: {
             textColor: function () {
                 return (this.obj.isWatched)? 'watched' : '';
+            }
+        },
+        methods: {
+            changeStatus: function () {
+                this.$emit('status', this.obj.id, this.obj)
             }
         }
     }
