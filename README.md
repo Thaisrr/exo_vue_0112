@@ -1,4 +1,10 @@
-# exo_0112
+# VueJS 2 - Exercices TV-Show ( correction )
+
+Correction of the VueJS exercice I propose in my training.
+
+You can use this project as a template for your own projects.
+
+
 
 ## Project setup
 ```
